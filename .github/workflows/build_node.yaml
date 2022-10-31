@@ -3,13 +3,14 @@ name: Build node js apps
 on:
   workflow_call:
     inputs:
-      node-version:
+      node:
+        description: 'node version'
+        default: '16.3.0'
         required: true
         type: string
-        default: '16.3.0'
         
       install-cmd:
-        required: false
+        required: true
         type: string
         default: 'npm install'
 
@@ -23,7 +24,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ inputs.node-version }}
+          node-version: ${{ inputs.node }}
 
       - name: Cache node modules
         uses: actions/cache@v2
