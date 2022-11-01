@@ -36,7 +36,7 @@ jobs:
 
     - name: Build and Tag
       env:
-        TAG: ${{ inputs.ENVIRONMENT }}-${{ GITHUB_SHA }}
+        TAG: ${{ inputs.ENVIRONMENT }}-${{ env.GITHUB_SHA }}
         ECR_REPOSITORY: ${{ inputs.ECR_REPOSITORY }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
 
