@@ -7,7 +7,7 @@ on:
         description: 'environment name'
         required: true
         type: string  
-      ecr_repository:
+      REPOSITORY:
         required: true
         type: string  
     secrets:
@@ -37,7 +37,7 @@ jobs:
     - name: Build and Tag
       env:
         TAG: ${{ inputs.ENVIRONMENT }}-${{ env.GITHUB_SHA }}
-        ECR_REPOSITORY: ${{ inputs.ecr_repository}}
+        ECR_REPOSITORY: ${{ inputs.REPOSITORY }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
 
       run: |
