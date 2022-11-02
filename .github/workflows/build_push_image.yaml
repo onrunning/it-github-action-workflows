@@ -36,11 +36,11 @@ jobs:
 
     - name: Build and Tag
       env:
-        TAG: ${{ inputs.ENVIRONMENT }}-${GITHUB_SHA}
         ECR_REPOSITORY: ${{ inputs.REPOSITORY }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
 
       run: |
+        echo "TAG=${{ inputs.ENVIRONMENT }}-${GITHUB_SHA}" >> "$GITHUB_ENV"
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${{env.TAG}} .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{env.TAG}} 
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{env.TAG}}
    
