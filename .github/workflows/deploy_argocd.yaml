@@ -1,0 +1,14 @@
+name: Deploy via ArgoCD
+
+on:
+  workflow_call:
+
+jobs:
+  Deploy:
+    name: Deploy to ArgoCD
+    runs-on: ubuntu-latest
+    steps:
+    - name: Echo tag
+      run: |
+        echo {{ env.TAG }}
+   
