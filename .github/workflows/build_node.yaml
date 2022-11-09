@@ -9,11 +9,6 @@ on:
         required: false
         type: string
         
-      install-cmd:
-        required: false
-        type: string
-        default: 'npm install'
-
 jobs:
   build:
     runs-on: ubuntu-latest
