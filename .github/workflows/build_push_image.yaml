@@ -15,8 +15,14 @@ on:
         required: true
       AWS_SECRET_ACCESS_KEY:
         required: true
+    outputs:
+      tag:
+      description: The image tag
+      value: ${{ jobs.build.outputs.outcome }}
 jobs:
   build:
+    outputs:
+      outcome: ${{ steps.set-tag.outputs.image-tag }}
     name: Build and Publish Image
     runs-on: ubuntu-latest
     
@@ -30,11 +36,13 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-1
+    
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build and Tag
+      id: set-tag
       env:
         ECR_REPOSITORY: ${{ inputs.REPOSITORY }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -43,5 +51,5 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "TAG=$IMAGE_TAG" >> $GITHUB_ENV
-   
+        echo "image-tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+    

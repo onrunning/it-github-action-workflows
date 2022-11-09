@@ -1,8 +1,10 @@
 name: Deploy via ArgoCD
-
 on:
   workflow_call:
-
+    inputs:
+      image-tag:
+        required: true
+        type: string
 jobs:
   Deploy:
     name: Deploy to ArgoCD
@@ -10,5 +12,5 @@ jobs:
     steps:
     - name: Echo tag
       run: |
-        echo "${{ env.TAG }}"
+        echo "${{ inputs.image-tag }}"
    
