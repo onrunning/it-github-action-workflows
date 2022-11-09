@@ -17,8 +17,8 @@ on:
         required: true
     outputs:
       tag:
-      description: The image tag
-      value: ${{ jobs.build.outputs.outcome }}
+        description: The image tag
+        value: ${{ jobs.build.outputs.outcome }}
 jobs:
   build:
     outputs:
