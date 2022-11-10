@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check the calling organization
-        if: ${{ github.repository_owner != 'nrunning' }}
+        if: ${{ github.repository_owner != 'onrunning' }}
         uses: actions/github-script@v3
         with:
           script: |

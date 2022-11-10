@@ -5,6 +5,11 @@ on:
       image-tag:
         required: true
         type: string
+    secrets:
+      GITOPS_USER:
+        required: true
+      GITOPS_TOKEN:
+        required: true
 jobs:
   Deploy:
     name: Deploy to ArgoCD
@@ -13,4 +18,9 @@ jobs:
     - name: Echo tag
       run: |
         echo "${{ inputs.image-tag }}"
+        git clone https://${{ secrets.GITOPS_USER }}:${{ secrets.GITOPS_TOKEN }}@github.com/onrunning/it-argocd-manifest.git
+        git config --global user.email "gitops@on-running"
+        git config --global user.name  "gitops"
+        echo "Deploying application"
+        ls
    
