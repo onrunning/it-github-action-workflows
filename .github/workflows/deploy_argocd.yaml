@@ -5,6 +5,12 @@ on:
       image-tag:
         required: true
         type: string
+      ecr_repository:
+        required: true
+        type: string
+      file_path:
+        required: true
+        type: string
     secrets:
       GITOPS_USER:
         required: true
@@ -23,4 +29,8 @@ jobs:
         git config --global user.name  "gitops"
         echo "Deploying application"
         ls
-   
+        sed -i "s/${{ inputs.ecr_repository }}:.*/${{ inputs.ecr_repository }}:${{ inputs.image-tag }}/gI" it-argocd-manifest/apps/${{ inputs.file_path }}
+        cd it-argocd-manifest/apps/
+        git add .
+        git commit -m "update image tag"
+        git push origin main
