@@ -27,10 +27,10 @@ jobs:
         git clone https://${{ secrets.GITOPS_USER }}:${{ secrets.GITOPS_TOKEN }}@github.com/onrunning/it-argocd-manifest.git
         git config --global user.email "gitops@on-running"
         git config --global user.name  "gitops"
-        echo "Deploying application"
-        ls
+        echo "Deploying application with image ${{ inputs.image-tag }}"
         sed -i "s/${{ inputs.ecr_repository }}:.*/${{ inputs.ecr_repository }}:${{ inputs.image-tag }}/gI" it-argocd-manifest/apps/${{ inputs.file_path }}
         cd it-argocd-manifest/apps/
+        git pull
         git add .
         git commit -m "update image tag"
         git push origin main
