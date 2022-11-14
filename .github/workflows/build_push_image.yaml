@@ -3,11 +3,11 @@ name: Build and Push Docker Images
 on:
   workflow_call:
     inputs:
-      ENVIRONMENT:
+      environment:
         description: 'environment name'
         required: true
         type: string  
-      REPOSITORY:
+      repository:
         required: true
         type: string  
     secrets:
@@ -44,9 +44,9 @@ jobs:
     - name: Build and Tag
       id: set-tag
       env:
-        ECR_REPOSITORY: ${{ inputs.REPOSITORY }}
+        ECR_REPOSITORY: ${{ inputs.repository }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ inputs.ENVIRONMENT }}-${{ github.sha }}
+        IMAGE_TAG: ${{ inputs.environment }}-${{ github.sha }}
 
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .

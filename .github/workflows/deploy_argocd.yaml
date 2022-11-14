@@ -18,12 +18,11 @@ on:
         required: true
 jobs:
   Deploy:
-    name: Deploy to ArgoCD
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: Echo tag
+    - name: update argocd app
       run: |
-        echo "${{ inputs.image-tag }}"
         git clone https://${{ secrets.GITOPS_USER }}:${{ secrets.GITOPS_TOKEN }}@github.com/onrunning/it-argocd-manifest.git
         git config --global user.email "gitops@on-running"
         git config --global user.name  "gitops"
