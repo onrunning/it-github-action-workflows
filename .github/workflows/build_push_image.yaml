@@ -10,6 +10,9 @@ on:
       repository:
         required: true
         type: string  
+      args:
+        require: false
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -49,7 +52,7 @@ jobs:
         IMAGE_TAG: ${{ inputs.environment }}-${{ github.sha }}
 
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build ${{ inputs.args }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image-tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
     
