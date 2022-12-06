@@ -43,13 +43,15 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+      run: |
+        echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
     - name: Build and Tag
       id: set-tag
       env:
         ECR_REPOSITORY: ${{ inputs.repository }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ inputs.environment }}-${{ github.sha }}
+        IMAGE_TAG: ${{ inputs.environment }}-${{ steps.login-ecr.outputs.sha_short }}
 
       run: |
         docker build ${{ inputs.args }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
