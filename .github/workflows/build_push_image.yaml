@@ -51,8 +51,8 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
 
       run: |
-        echo "IMAGE_TAG=${{ inputs.environment }}-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        echo "image-tag=${{ inputs.environment }}-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
         docker build ${{ inputs.args }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "image-tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+
     
