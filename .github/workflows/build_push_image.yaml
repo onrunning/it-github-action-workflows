@@ -10,14 +10,13 @@ on:
       repository:
         required: true
         type: string  
-      args:
-        required: false
-        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
       AWS_SECRET_ACCESS_KEY:
         required: true
+      BUILD_ARGS:
+        required: false
     outputs:
       tag:
         description: The image tag
@@ -52,7 +51,7 @@ jobs:
         IMAGE_TAG: ${{ inputs.environment }}
 
       run: |
-       echo SHORT_SHA=$(git rev-parse --short HEAD) >> $GITHUB_OUTPUT
+        echo SHORT_SHA=$(git rev-parse --short HEAD) >> $GITHUB_OUTPUT
         docker build ${{ inputs.args }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-$SHORT_SHA .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-$SHORT_SH
         echo "image-tag=$IMAGE_TAG-$SHORT_SH" >> $GITHUB_OUTPUT
