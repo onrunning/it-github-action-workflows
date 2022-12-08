@@ -25,7 +25,7 @@ on:
 jobs:
   build:
     outputs:
-      outcome: ${{ steps.set-tag.outputs.IMAGE_TAG }}
+      outcome: ${{ steps.set-tag.outputs.image-tag }}
     name: Build and Publish Image
     runs-on: ubuntu-latest
     
@@ -51,8 +51,8 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
 
       run: |
-        echo "IMAGE_TAG=${{ inputs.environment }}-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-        docker build ${{ inputs.args }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "image-tag=${{ inputs.environment }}-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        docker build ${{ inputs.args }} -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.image-tag }} .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.image-tag }}
 
     
