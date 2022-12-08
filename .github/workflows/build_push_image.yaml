@@ -49,10 +49,11 @@ jobs:
       env:
         ECR_REPOSITORY: ${{ inputs.repository }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ inputs.environment }}-$(echo $(git rev-parse --short ${{ github.sha }}))
+        IMAGE_TAG: ${{ inputs.environment }}
 
       run: |
-        docker build ${{ inputs.args }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "image-tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+        SHORT_SHA=$(git rev-parse --short HEAD)
+        docker build ${{ inputs.args }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-$SHORT_SHA .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-$SHORT_SH
+        echo "image-tag=$IMAGE_TAG-$SHORT_SH" >> $GITHUB_OUTPUT
     
